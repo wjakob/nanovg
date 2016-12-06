@@ -24,7 +24,10 @@
 #include "nanovg.h"
 #define FONTSTASH_IMPLEMENTATION
 #include "fontstash.h"
+
+#ifdef NVG_STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
+#endif
 #include "stb_image.h"
 
 #ifdef _MSC_VER
