@@ -4698,6 +4698,7 @@ static stbi_uc *stbi__bmp_load(stbi__context *s, int *x, int *y, int *comp, int 
    int psize=0,i,j,width;
    int flip_vertically, pad, target;
    stbi__bmp_data info;
+   memset(&info, 0, sizeof(info));
 
    info.all_a = 255;   
    if (stbi__bmp_parse_header(s, &info) == NULL)
