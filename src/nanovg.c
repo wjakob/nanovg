@@ -1027,6 +1027,43 @@ void nvgResetScissor(NVGcontext* ctx)
 	state->scissor.extent[1] = -1.0f;
 }
 
+int nvgCurrentScissor(NVGcontext* ctx, float* bounds)
+{
+	NVGstate* state = nvg__getState(ctx);
+	float ex, ey, tex, tey;
+	float invxform[6], pxform[6];
+
+	// Check if scissor is active
+	if (state->scissor.extent[0] < 0) {
+		if (bounds) {
+			bounds[0] = bounds[1] = bounds[2] = bounds[3] = 0;
+		}
+		return 0;
+	}
+
+	if (bounds) {
+		ex = state->scissor.extent[0];
+		ey = state->scissor.extent[1];
+
+		// Transform scissor rect from scissor transform space to current transform space
+		nvgTransformInverse(invxform, state->xform);
+		memcpy(pxform, state->scissor.xform, sizeof(float)*6);
+		nvgTransformMultiply(pxform, invxform);
+
+		// Calculate transformed extents (axis-aligned bounding box)
+		tex = ex*nvg__absf(pxform[0]) + ey*nvg__absf(pxform[2]);
+		tey = ex*nvg__absf(pxform[1]) + ey*nvg__absf(pxform[3]);
+
+		// Calculate bounds in current space
+		bounds[0] = pxform[4] - tex;
+		bounds[1] = pxform[5] - tey;
+		bounds[2] = tex * 2.0f;
+		bounds[3] = tey * 2.0f;
+	}
+
+	return 1;
+}
+
 // Global composite operation.
 void nvgGlobalCompositeOperation(NVGcontext* ctx, int op)
 {

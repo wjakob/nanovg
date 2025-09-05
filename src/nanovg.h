@@ -457,6 +457,11 @@ extern NVG_EXPORT void nvgIntersectScissor(NVGcontext* ctx, float x, float y, fl
 // Reset and disables scissoring.
 extern NVG_EXPORT void nvgResetScissor(NVGcontext* ctx);
 
+// Returns the current scissor rectangle in local coordinates.
+// Returns 1 if scissor is set, 0 if no scissor is active.
+// The bounds array should be float[4] and will receive [x, y, w, h].
+extern NVG_EXPORT int nvgCurrentScissor(NVGcontext* ctx, float* bounds);
+
 //
 // Paths
 //
