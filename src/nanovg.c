@@ -369,6 +369,10 @@ void nvgDeleteInternal(NVGcontext* ctx)
 	free(ctx);
 }
 
+void nvgSetDevicePixelRatio(NVGcontext *ctx, float devicePixelRatio) {
+	nvg__setDevicePixelRatio(ctx, devicePixelRatio);
+}
+
 void nvgBeginFrame(NVGcontext* ctx, float windowWidth, float windowHeight, float devicePixelRatio)
 {
 /*	printf("Tris: draws:%d  fill:%d  stroke:%d  text:%d  TOT:%d\n",
